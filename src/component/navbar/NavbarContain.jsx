@@ -25,7 +25,7 @@ const NavbarContain = () => {
 };
 
 const Container = styled.div`
-border-bottom: 1px solid #E4E7EC;
+/* border-bottom: 1px solid #E4E7EC; */
 `;
 
 const Nav = styled.nav`
@@ -42,8 +42,8 @@ const Logo = styled(Link)`
 	color: #000000;
 	text-decoration: none;
 	margin-top: 1%;
-  width: 5%;
-  height: auto;
+  	width: 5%;
+  	height: auto;
 `;
 
 const LogoImage = styled.img`
@@ -58,7 +58,7 @@ const Blank = styled.div`
 
 const NavMenu = styled.div`
 	display: flex;
-	justify-content: space-evenly;
+	justify-content: space-between;
 	align-items: center;
 	width: 100vw;
 	@media screen and (max-width: 768px) {
