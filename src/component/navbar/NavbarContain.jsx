@@ -4,7 +4,6 @@ import { NavLink as Link } from 'react-router-dom'; // Link 태그
 import { FaBars } from 'react-icons/fa'; //반응형 햄버거 메뉴 아이콘
 import LoginNav from './LoginNav';
 import InitNav from './InitNav';
-import logo from '../../assets/logo.png'
 
 const NavbarContain = () => {
 	const [userData, setUserData] = useState(0);
@@ -13,9 +12,7 @@ const NavbarContain = () => {
 			<Nav>
 				<Bars />
 				<NavMenu>
-					<Logo to='/'>
-						<LogoImage src={logo} alt="logo" />
-					</Logo>
+					<Logo to='/'><LogoImage src='assets/logo.png' alt="logo" /></Logo>
 					<Blank/>
 					{userData ? <LoginNav/> :<InitNav/>}
 				</NavMenu>
@@ -42,8 +39,8 @@ const Logo = styled(Link)`
 	color: #000000;
 	text-decoration: none;
 	margin-top: 1%;
-  	width: 5%;
-  	height: auto;
+	width: 6.5%;
+	height: auto;
 `;
 
 const LogoImage = styled.img`
