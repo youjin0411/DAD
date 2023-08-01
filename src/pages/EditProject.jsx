@@ -161,7 +161,7 @@ const Main = () => {
 
                 <div style={{display: 'grid', gridTemplateColumns: '8% 40% 15%'}}>
                     <Text style={{marginTop: 30}}>팀원</Text>
-                        <div key={member.id} style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 50%)', alignItems: 'center' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 50%)', alignItems: 'center' }}>
                         <div style={{ display: 'flex', columnGap: 20, marginTop: 30 }}>
                             <label style={{ width: 100 }}>학번</label>
                             <Input2 type="text" placeholder="학번 입력" />
