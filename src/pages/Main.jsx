@@ -110,7 +110,7 @@ const MainGroup = styled.div`
 `
 const G = styled.div``
 const Banner1 = styled.div`
-	width: 541px;
+	width: 490px;
 	height: 161px;
 	border-radius: 20px;
 	display: flex;

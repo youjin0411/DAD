@@ -1,6 +1,31 @@
 import styled from 'styled-components';
+import React, { useState} from "react";
+import { useNavigate } from 'react-router-dom/dist';
 
 const Login = () => {
+  const navigation = useNavigate();
+  const [id, setId] = useState("");
+  const [pw, setPw] = useState(""); 
+  
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    if(id === 'w2117@e-mirim.hs.kr'){
+      alert("로그인 성공")
+      localStorage.setItem('id', 'w2117@e-mirim.hs.kr')
+      localStorage.setItem('pw', 'mirim1234')
+      navigation('/');
+    }else if(id === 'teacher@example.com'){
+      alert("로그인 성공")
+      localStorage.setItem('id', 'teacher@example.com')
+      localStorage.setItem('pw', 'teacher_password')
+      localStorage.setItem('manager', 'true')
+      navigation('/');
+    }
+    else {
+        // 로그인 실패 처리
+        alert('로그인 실패: 이메일 또는 비밀번호가 잘못되었습니다.');
+      }
+  };
   return (
     <Main>
       <Text>Welcome</Text>
@@ -10,15 +35,14 @@ const Login = () => {
         <Inputs
           type="email"
           placeholder="Email을 입력해주세요"
-          // onChange={handleIdChange} 
+          onChange={(e) => setId(e.target.value)}
         />
       <label style={{color: `#38405D` }}>Password</label>
         <Inputs
           type="email"
           placeholder="Password를 입력해주세요"
-          // onChange={handleIdChange} 
         />
-        <Button>로그인</Button>
+        <Button onClick={handleLogin}>로그인</Button>
 			</form>
     </Main>
   );

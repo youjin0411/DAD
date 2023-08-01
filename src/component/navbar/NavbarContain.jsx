@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { NavLink as Link } from 'react-router-dom'; // Link 태그 
 import { FaBars } from 'react-icons/fa'; //반응형 햄버거 메뉴 아이콘
@@ -6,7 +6,15 @@ import LoginNav from './LoginNav';
 import InitNav from './InitNav';
 
 const NavbarContain = () => {
+	
 	const [userData, setUserData] = useState(0);
+	useEffect( () => {
+		if(localStorage.getItem('id')){
+			setUserData(1);
+		}
+	})
+
+	
 	return (
 		<Container>
 			<Nav>

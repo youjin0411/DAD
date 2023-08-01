@@ -1,20 +1,34 @@
 import styled from 'styled-components'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 const SidebarContent = () => {
-    const [islogin, setIsLogin] = useState(false);
+    const [islogin, setIsLogin] = useState(false)
+    useEffect ( () => {
+        setIsLogin(localStorage.getItem('id'))
+    }, [localStorage.getItem('id')])
+    
+    const [data, setData] = useState('')
+    useEffect ( () => {
+      setData(localStorage.getItem('manager'))
+    }, [localStorage.getItem('manager')])
     return(
         <Content>
             <Navbar>
-                {islogin ? (
+                {islogin ? data ? (
                     <>
-                        <Nav href="/">◌ 전시작품 작성 ◌</Nav>
-                        <Nav href="/">◌ 전시 작품 ◌</Nav>
-                        <Nav href="/">◌ 게시판 ◌</Nav>
+                    <Nav href="/manager">◌ 관리자페이지 ◌</Nav>
+                    <Nav href="/detail">◌ 전시 작품 ◌</Nav>
+                    <Nav href="/board">◌ 게시판 ◌</Nav>
+                </>
+                ) : (
+                    <>
+                        <Nav href="/edit">◌ 전시작품 작성 ◌</Nav>
+                        <Nav href="/detail">◌ 전시 작품 ◌</Nav>
+                        <Nav href="/board">◌ 게시판 ◌</Nav>
                     </>
                 ) : (
                     <>
-                        <Nav href="/">◌ 전시 작품 ◌</Nav>
-                        <Nav href="/">◌ 게시판 ◌</Nav>
+                        <Nav href="/detail">◌ 전시 작품 ◌</Nav>
+                        <Nav href="/board">◌ 게시판 ◌</Nav>
                     </> 
                 )
                 }

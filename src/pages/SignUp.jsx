@@ -1,11 +1,16 @@
 import styled from 'styled-components';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom/dist';
 
 const SignUp = () => {
-  const [personchk, setPersonChk] = useState(0)
+  const navigation = useNavigate();
+  const [personchk, setPersonChk] = useState('N');
   //하나의 체크박스만 체크되도록 하는 함수  
   const checkOnlyOne = (checkThis) => {
     const checkboxes = document.getElementsByName('chk')
+    if(checkThis === 1){
+      setManager('Y')
+    }
     for (let i = 0; i < checkboxes.length; i++) {
       //방금 클릭한 체크박스를 제외한 모든 체크박스를 false로 변경한다. 
       if (checkboxes[i] !== checkThis) {
@@ -14,6 +19,32 @@ const SignUp = () => {
     }
     setPersonChk(checkThis.value)
   }
+  const [id, setId] = useState("");
+  const [pw, setPw] = useState("");
+  const [nickname, setNickname] = useState("");
+  const [manager, setManager] = useState("")
+
+  const handleIdChange = (e) => {
+    setId(e.target.value);
+  };
+
+  const handlePwChange = (e) => {
+    setPw(e.target.value);
+  };
+
+  const handleNicknameChange = (e) => {
+    setNickname(e.target.value);
+  };
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    if(id !== 'w2117@e-mirim.hs.kr'){
+        alert("성공")
+        navigation('/login')
+    }else{
+      alert("중복된 아이디입니다.");
+    }
+  };
   return (
     <Main>
       <Text>Welcome ! </Text>
@@ -23,13 +54,13 @@ const SignUp = () => {
         <Inputs
           type="email"
           placeholder="Email을 입력해주세요"
-          // onChange={handleIdChange} 
+          onChange={handleIdChange}
         />
         <label style={{color: `#38405D` }}>Password</label>
         <Inputs
             type="email"
             placeholder="Password를 입력해주세요"
-            // onChange={handleIdChange} 
+            onChange={handlePwChange}
           />
           <div style={{display: 'flex', justifyContent:'center', columnGap: 20, marginTop: 30 }}>
             <input
@@ -48,18 +79,18 @@ const SignUp = () => {
           { personchk === "1" ? (
               <div style={{display: 'grid'}}>
                 <label>학번이름</label>
-                <Inputs placeholder='학번이름을 입력하세요.' type='text'/>
+                <Inputs placeholder='학번이름을 입력하세요.' type='text' onChange={handleNicknameChange}/>
               </div>
           ) : (
             <div style={{display: 'grid'}}>
               <label>성명</label>
               <Inputs placeholder='닉네임을 입력해주세요(최대6글자)' type='text'/>
               <label>교사 인증코드</label>
-              <Inputs placeholder='인증코드를 입력하세요' type='text'/>
+              <Inputs placeholder='인증코드를 입력하세요' type='text' onChange={handleNicknameChange}/>
             </div>
           ) 
           }
-        <Button>회원가입</Button>
+        <Button onClick={handleSignUp}>회원가입</Button>
 			</form>
     </Main>
   );

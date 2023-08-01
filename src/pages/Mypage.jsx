@@ -2,16 +2,16 @@ import { useState } from 'react'
 import styled from 'styled-components'
 
 const Mypage = () => {
-    const [countList, setCountList] = useState([1,2])
+    const [countList, setCountList] = useState(['FrameMe','VoiceFlow', 'Roomin'])
     return(
         <Group>
 			<Title>MyPage</Title>
 			<SubTitle>나의 전시 작품 리스트</SubTitle>
-            <div style={{display: 'grid', gridTemplateColumns: '40% 40%'}}>
+            <div style={{display: 'grid', gridTemplateColumns: '40% 40%', gridRowGap: 20}}>
                 {countList.map((item, i) => (
                     <Box key={i}>
                         <Text style={{fontSize: 25, marginTop: 20, marginLeft: 40}}>{item}</Text>
-                        <Text style={{fontSize: 18, marginLeft: 40}}>{item}sdfsdfsdfsdfsdfsd</Text>
+                        <Text style={{fontSize: 18, marginLeft: 40}}>{item}의 설명을 담을 자리 입니다.</Text>
                         <Btn>수정</Btn>
                     </Box>
                 ))}
