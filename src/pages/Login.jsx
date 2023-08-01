@@ -18,11 +18,21 @@ const Login = () => {
           placeholder="Password를 입력해주세요"
           // onChange={handleIdChange} 
         />
-        <button></button>
+        <Button>로그인</Button>
 			</form>
     </Main>
   );
 };
+const Button = styled.button`
+  margin-top: 30px;
+  box-sizing: border-box;
+  width: 250px;
+  height: 38px;
+  background: linear-gradient(0deg, #FCB6E0, #FCB6E0), #6C5DD3;
+  border-radius: 8px;
+  color: #ffffff;
+  border: none;
+`
 const Inputs = styled.input`
   width: 250px;
   height: 42px;
@@ -60,10 +70,10 @@ const Main = styled.div`
   background: #fff;
   box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
-  width: 445px;
-  height: 682px;
+  width: 405px;
+  height: 452px;
 	margin: 0 auto;
-	margin-top: 100px;
+	margin-top: 150px;
 `;
 
 export default Login;

@@ -1,12 +1,23 @@
 import styled from 'styled-components'
+import { useState } from 'react';
 const SidebarContent = () => {
+    const [islogin, setIsLogin] = useState(false);
     return(
         <Content>
             <Navbar>
-                <>
-                    <Nav href="/">◌ 전시 작품 ◌</Nav>
-                    <Nav href="/">◌ 게시판 ◌</Nav>
-                </>
+                {islogin ? (
+                    <>
+                        <Nav href="/">◌ 전시작품 작성 ◌</Nav>
+                        <Nav href="/">◌ 전시 작품 ◌</Nav>
+                        <Nav href="/">◌ 게시판 ◌</Nav>
+                    </>
+                ) : (
+                    <>
+                        <Nav href="/">◌ 전시 작품 ◌</Nav>
+                        <Nav href="/">◌ 게시판 ◌</Nav>
+                    </> 
+                )
+                }
             </Navbar>
             <Line></Line>
         </Content>

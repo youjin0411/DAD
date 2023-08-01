@@ -4,6 +4,8 @@ import NavBar from './component/navbar/NavbarContain';
 import Main from './pages/Main';
 import SidebarContent from './component/Sidebar/SidebarContext';
 import Login from './pages/Login';
+import SignUp from './pages/SignUp';
+import EditProject from './pages/EditProject'
 
 const App = () => {
   return (
@@ -14,6 +16,8 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/edit" element={<EditProject />} />
         </Routes>
       </MainContent>
     </Router>
