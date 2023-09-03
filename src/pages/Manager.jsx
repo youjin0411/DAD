@@ -1,5 +1,7 @@
 import styled from 'styled-components'
+import { useState, useEffect } from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { useNavigate } from 'react-router-dom';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -8,6 +10,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Select from 'react-select';
+import axios from 'axios';
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.white,
@@ -26,36 +29,59 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-function createData(name, calories, fat, carbs) {
-  return { name, calories, fat, carbs };
-}
-
-function createData2(name, calories) {
-  return { name, calories};
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24),
-  createData('Ice cream sandwich', 237, 9.0, 37),
-  createData('Eclair', 262, 16.0, 24),
-  createData('Cupcake', 305, 3.7, 67),
-  createData('Gingerbread', 356, 16.0, 49),
-];
-
-const rows2 = [
-  createData2('보름달', 10),
-  createData2('보름달', 10),
-  createData2('보름달', 10),
-  createData2('보름달', 10),
-  createData2('보름달', 10),
-];
 const Manager = () => {
+  const [countList, setCountList] = useState([]);
+  const [subject, setSubject] = useState([]);
+  const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
+  const [tableData, setTableData] = useState([]);
+   const [checkedItems, setCheckedItems] = useState({}); // 각 항목의 공개 여부
+
+  const navigate = useNavigate();
     const techCompanies = [
       { label: "전체", value: 1 },
       { label: "작품명 순", value: 2 },
       { label: "학번 순", value: 3 },
       { label: "주제  순", value: 4 },
     ];
+    async function getProject() {
+      try {
+        const response = await axios.get("http://localhost:3001/project");
+        setCountList(response.data);
+      } catch (error) {
+        console.error("오류 발생:", error);
+      }
+    }
+    getProject();
+
+    async function getSubject() {
+      try {
+        const response = await axios.get("http://localhost:3001/subject");
+        setSubject(response.data);
+      } catch (error) {
+        console.error("오류 발생:", error);
+      }
+    }
+    getSubject();
+    
+    const handleCheckboxChange = async (event, PRONAME) => {
+      const { checked } = event.target;
+  
+      // 항목의 공개 여부 업데이트
+      setCheckedItems((prevCheckedItems) => ({
+        ...prevCheckedItems,
+        [PRONAME]: checked,
+      }));
+      try {
+        const response = await axios.post('http://localhost:3001/update-public-status', {
+          PRONAME: PRONAME,
+          checked: checked,
+        });
+      } catch (error) {
+        alert('오류 발생: ' + error.message);
+      }
+      
+    };  
+
     return(
         <Group>
           <Title>MIRIM ITSHOW! </Title>
@@ -77,17 +103,24 @@ const Manager = () => {
                         <StyledTableCell>작품 소개</StyledTableCell>
                         <StyledTableCell align="right">주제&nbsp;</StyledTableCell>
                         <StyledTableCell align="right">더보기&nbsp;</StyledTableCell>
+                        <StyledTableCell align="right">공개여부&nbsp;</StyledTableCell>
                     </TableRow>
                     </TableHead>
                     <TableBody>
-                    {rows.map((row) => (
-                        <StyledTableRow key={row.name}>
-                        <StyledTableCell component="th" scope="row">
-                            {row.name}
-                        </StyledTableCell>
-                        <StyledTableCell>{row.calories}</StyledTableCell>
-                        <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                        <StyledTableCell align="right">{row.carbs}</StyledTableCell>
+                    {countList.map((row) => (
+                        <StyledTableRow key={row.PRONAME}>
+                          <StyledTableCell component="th" scope="row">
+                              {row.PRONAME}
+                          </StyledTableCell>
+                          <StyledTableCell>{row.PRODESC}</StyledTableCell>
+                          <StyledTableCell align="right">{row.SUBJECT}</StyledTableCell>
+                          <StyledTableCell align="right"><button onClick={() => { navigate('/click', {state : row}) }}>자세히</button></StyledTableCell>
+                          <StyledTableCell align="right">
+                          <input
+                            type="checkbox"
+                            checked={checkedItems[row.PRONAME] || false}
+                            onChange={(e) => handleCheckboxChange(e, row.PRONAME)}
+                          />공개</StyledTableCell>
                         </StyledTableRow>
                     ))}
                     </TableBody>
@@ -103,13 +136,13 @@ const Manager = () => {
                     </TableRow>
                     </TableHead>
                     <TableBody>
-                    {rows2.map((row) => (
-                        <StyledTableRow key={row.name}>
+                    {subject.map((row) => (
+                        <StyledTableRow key={row.SUBJECTNAME}>
                           <StyledTableCell component="th" scope="row">
-                              {row.name}
+                              {row.SUBJECTNAME}
                           </StyledTableCell>
                           <StyledTableCell component="th" scope="row">
-                              {row.calories}
+                              {row.COUNT}
                           </StyledTableCell>
                         </StyledTableRow>
                     ))}

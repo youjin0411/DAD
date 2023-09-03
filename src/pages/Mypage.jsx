@@ -1,17 +1,50 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styled from 'styled-components'
-
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 const Mypage = () => {
-    const [countList, setCountList] = useState(['FrameMe','VoiceFlow', 'Roomin'])
+    const navigate = useNavigate();
+    const [countList, setCountList] = useState(['FrameMe','VoiceFlow', 'Roomin']);
+    const [teamLeaderProjects, setTeamLeaderProjects] = useState([]);
+    const [teamMemberProjects, setTeamMemberProjects] = useState([]);
+    const [userId, setUserId]  = useState(localStorage.getItem('nickname'));
+    async function getProject() {
+        try {
+            const result = await axios.get("http://localhost:3001/mypage",  {
+                params: {
+                userId: userId,
+                },
+            });
+            const { teamLeaderProjects, teamMemberProjects } = result.data;
+            console.log(result.data)
+            setTeamLeaderProjects(teamLeaderProjects);
+            setTeamMemberProjects(teamMemberProjects);
+        } catch (error) {   
+            console.error("오류 발생:", error);
+        }
+    }
+    getProject();
+        
     return(
         <Group>
 			<Title>MyPage</Title>
-			<SubTitle>나의 전시 작품 리스트</SubTitle>
+			<SubTitle>팀장인 프로젝트 리스트</SubTitle>
             <div style={{display: 'grid', gridTemplateColumns: '40% 40%', gridRowGap: 20}}>
-                {countList.map((item, i) => (
+                {teamLeaderProjects.map((item, i) => (
                     <Box key={i}>
-                        <Text style={{fontSize: 25, marginTop: 20, marginLeft: 40}}>{item}</Text>
-                        <Text style={{fontSize: 18, marginLeft: 40}}>{item}의 설명을 담을 자리 입니다.</Text>
+                        <Text style={{fontSize: 25, marginTop: 20, marginLeft: 40}}>{item.PRONAME}</Text>
+                        <Text style={{fontSize: 18, marginLeft: 40}}>{item.PRODESC}의 설명을 담을 자리 입니다.</Text>
+                        <Btn onClick={() => navigate('/')}>수정</Btn>
+                    </Box>
+                ))}
+            </div>
+
+            <SubTitle>팀원인 프로젝트 리스트</SubTitle>
+            <div style={{display: 'grid', gridTemplateColumns: '40% 40%', gridRowGap: 20}}>
+                {teamMemberProjects.map((item, i) => (
+                    <Box key={i}>
+                        <Text style={{fontSize: 25, marginTop: 20, marginLeft: 40}}>{item.PRONAME}</Text>
+                        <Text style={{fontSize: 18, marginLeft: 40}}>{item.PRODESC}의 설명을 담을 자리 입니다.</Text>
                         <Btn>수정</Btn>
                     </Box>
                 ))}

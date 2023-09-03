@@ -13,7 +13,7 @@ const SidebarContent = () => {
     return(
         <Content>
             <Navbar>
-                {islogin ? data ? (
+                {islogin ? data === 'Y' ? (
                     <>
                     <Nav href="/manager">◌ 관리자페이지 ◌</Nav>
                     <Nav href="/detail">◌ 전시 작품 ◌</Nav>
@@ -27,7 +27,7 @@ const SidebarContent = () => {
                     </>
                 ) : (
                     <>
-                        <Nav href="/detail">◌ 전시 작품 ◌</Nav>
+                        <Nav href="/detail/auth">◌ 전시 작품 ◌</Nav>
                         <Nav href="/board">◌ 게시판 ◌</Nav>
                     </> 
                 )

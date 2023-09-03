@@ -104,7 +104,7 @@ const Main = () => {
 
       const onSubmitPro = async () => {
 		try {
-			const response = await axios.post("http://localhost:3001/project", {
+			const response = await axios.update("http://localhost:3001/project", {
                 proname: proname,
                 prodesc: prodesc,
                 prosubjec: subjectValue,
@@ -267,7 +267,7 @@ const Main = () => {
 				        ))}
                         </div>
                 </div>
-                <Btn type="submit" onClick={onSubmitPro}>제출</Btn>
+                <Btn type="submit" onClick={onSubmitPro}>수정</Btn>
             </form>
             <But onClick={addTeamMember}></But>
 		</Group>

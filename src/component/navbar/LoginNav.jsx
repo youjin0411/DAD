@@ -2,13 +2,17 @@ import React, {useState, useEffect} from "react";
 import styled from "styled-components";
 
 const DropdownMenu = () => {
-  const [data, setData] = useState('')
+  const [data, setData] = useState('');
+  const [auth, setAuth] = useState('');
   useEffect ( () => {
-    setData(localStorage.getItem('id'))
-  }, [localStorage.getItem('id')])
+    setData(localStorage.getItem('nickname'))
+    setAuth(localStorage.getItem('manager'))
+  }, [])
+
   return (
     <>
       <Wrapper>
+      {auth === 'N' ? (
         <Link href="/mypage" style={{width: 200, marginTop: 30}}>
             <div style={{display: 'flex'}}>
 								<Profile src='/assets/person.png'/>
@@ -17,6 +21,17 @@ const DropdownMenu = () => {
                 </User>
               </div>
         </Link>
+      ) : (
+        <Link style={{width: 200, marginTop: 30}}>
+            <div style={{display: 'flex'}}>
+								<Profile src='/assets/person.png'/>
+								<User>
+									<p style={{color: '#6C5DD3', fontSize: 16}}>{data}</p>
+                </User>
+              </div>
+        </Link>
+      )}
+        
       </Wrapper>
     </>
   );

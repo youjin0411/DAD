@@ -1,10 +1,17 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom/dist';
+import axios from 'axios';
 
 const SignUp = () => {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const [personchk, setPersonChk] = useState('N');
+  const [id, setId] = useState("");
+  const [pw, setPw] = useState("");
+  const [nickname, setNickname] = useState("");
+  const [manager, setManager] = useState("N");
+  const [mpw, setMpw] = useState("");
+
   //하나의 체크박스만 체크되도록 하는 함수  
   const checkOnlyOne = (checkThis) => {
     const checkboxes = document.getElementsByName('chk')
@@ -19,10 +26,15 @@ const SignUp = () => {
     }
     setPersonChk(checkThis.value)
   }
-  const [id, setId] = useState("");
-  const [pw, setPw] = useState("");
-  const [nickname, setNickname] = useState("");
-  const [manager, setManager] = useState("")
+
+  useEffect(() => {
+    if(personchk === '1') {
+      setManager('N')
+    }else{
+      setManager('Y')
+    }
+  }, [personchk])
+  console.log(manager)
 
   const handleIdChange = (e) => {
     setId(e.target.value);
@@ -36,15 +48,25 @@ const SignUp = () => {
     setNickname(e.target.value);
   };
 
+  const handleMpwChange = (e) => {
+    setMpw(e.target.value);
+  }
+
   const handleSignUp = async (e) => {
     e.preventDefault();
-    if(id !== 'w2117@e-mirim.hs.kr'){
-        alert("성공")
-        navigation('/login')
-    }else{
-      alert("중복된 아이디입니다.");
-    }
+    try {
+			const response = await axios.post("http://localhost:3001/user", {
+				email: id,
+        password: pw,
+        student_name : nickname,
+        teach_auth: manager,
+			});
+			navigate('/login')
+		} catch (error) {
+			alert("중복된 센서 패드 라벨 입니다.", error);	
+		}
   };
+
   return (
     <Main>
       <Text>Welcome ! </Text>
@@ -84,9 +106,9 @@ const SignUp = () => {
           ) : (
             <div style={{display: 'grid'}}>
               <label>성명</label>
-              <Inputs placeholder='닉네임을 입력해주세요(최대6글자)' type='text'/>
+              <Inputs placeholder='닉네임을 입력해주세요(최대6글자)' type='text' onChange={handleNicknameChange}/>
               <label>교사 인증코드</label>
-              <Inputs placeholder='인증코드를 입력하세요' type='text' onChange={handleNicknameChange}/>
+              <Inputs placeholder='인증코드를 입력하세요' type='text' onChange={handleMpwChange}/>
             </div>
           ) 
           }

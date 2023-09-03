@@ -1,32 +1,31 @@
 import React, {useState} from "react";
 import styled from 'styled-components'
+import { useLocation } from "react-router-dom";
 
-const ClickPage = ({ values }) => {
+const ClickPage = () => {
 	const [language, setLanguage] = useState([1,2])
+	const { state } = useLocation();
+	console.log(state)	
   return (
     <div>
-			<Text style={{marginTop: 60}}>FrameMe</Text>
-			<Desc>FRAME ME는 전시의 추억을 담아갈 수 있는 사진 촬영 서비스 입니다.</Desc>
+			<Text style={{marginTop: 60}}>{state.PRONAME}</Text>
+			<Desc>{state.PRODESC}</Desc>
 			<div style={{display: 'grid', gridTemplateColumns: 'repeat(2, 40%)', marginTop: 30}}>
 				<Box></Box>
 				<Box></Box>
 			</div>
 			<Text style={{marginTop: 30}}>Language</Text>
-			<div style={{display: 'flex', columnGap: 30, marginTop: 15}}>
-				{language.map((item, i) => (
-					<Item>{item}</Item>
-				))}
+			<div style={{display: 'flex', columnGap: 30, marginTop: 15}}> 
+				<Item>{state.LANGUAGE}</Item>
 				</div>
 			<Text style={{marginTop: 30}}>Tools</Text>
 			<div style={{display: 'flex', columnGap: 30, marginTop: 15}}>
-				{language.map((item, i) => (
-					<Item>{item}</Item>
-				))}
+				<Item>{state.TOOLS}</Item>
 				</div>
 				<div style={{float: 'right', marginRight: 80, marginTop: 100}}>
 					<Text style={{float: 'right'}}>Team</Text><br/>
-					<Desc style={{float: 'right'}}>SW: </Desc><br/>
-					<Desc style={{float: 'right'}}>Design: </Desc>
+					<Desc style={{float: 'right'}}>SW: {state.LEADER}</Desc><br/>
+					<Desc style={{float: 'right'}}>Design: {state.TEAMONE	}</Desc>
 				</div>
     </div>
   );

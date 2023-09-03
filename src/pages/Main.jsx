@@ -1,6 +1,11 @@
 import React from "react";
 import { styled } from "styled-components";
+import { useNavigate } from "react-router-dom";
 const Main = () => {
+	const handle = () => {
+		alert('준비중입니다.')
+	};
+	const navigate = useNavigate();
 	return(
 		<Group>
 			<Title>MIRIM ITSHOW!</Title>
@@ -14,21 +19,21 @@ const Main = () => {
 					</Banner1>
 					<Box>
 						<Text>개발자 전시 부스</Text>
-						<ClickGroup>
+						<ClickGroup onClick={() => navigate('/detail')}>
 							<GIcon style={{background: `#D0ECFF`}}><MiniIcon src='assets/developerlogo.png'></MiniIcon></GIcon>
 							<TG>
-									<Text>작품 소개</Text>
+									<Text >작품 소개</Text>
 									<Intro>개발자 작품 소개 페이지</Intro>
 								</TG>
 						</ClickGroup>
-						<ClickGroup>
+						<ClickGroup onClick={handle}>
 							<GIcon style={{background: `#F3D2D2`}}><MiniIcon src='assets/developerlogo.png'></MiniIcon></GIcon>
 							<TG>
 									<Text>배치도</Text>
 									<Intro>개발 전시 배치도 입니다.</Intro>
 								</TG>
 						</ClickGroup>
-						<ClickGroup>
+						<ClickGroup onClick={handle}>
 							<GIcon style={{background: `#E3EED0`}}><MiniIcon src='assets/developerlogo.png'></MiniIcon></GIcon>
 							<TG>
 									<Text>SW과 소개</Text>
@@ -37,7 +42,7 @@ const Main = () => {
 						</ClickGroup>
 					</Box>
 				</G>
-				<G>
+				<G onClick={handle}>
 					<Banner1 style={{background: `#AABDFF`}}>
 						<Icon src="assets/designlogo.png"></Icon>
 						<BannerText>For Designer</BannerText>

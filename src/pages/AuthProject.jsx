@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import Select from 'react-select';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import img from './assets/developerlogo.png'
 import axios from 'axios';
 const DetailPage = () => {
 	const [countList, setCountList] = useState([])
@@ -14,7 +15,7 @@ const DetailPage = () => {
 	];
 	async function getProject() {
 		try {
-			const response = await axios.get("http://localhost:3001/project");
+			const response = await axios.get("http://localhost:3001/dualproject");
 			setCountList(response.data);
 		} catch (error) {
 			console.error("오류 발생:", error);
@@ -64,7 +65,7 @@ const Box = styled.div`
 	width: 378px;
 	height: 213px;
 	border-radius: 30px;
-	background-image: url('assets/developerlogo.png');
 	background-size: cover;
+	background-image: url(${img});
 `
 export default DetailPage;

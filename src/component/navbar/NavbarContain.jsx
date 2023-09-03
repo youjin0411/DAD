@@ -8,13 +8,14 @@ import InitNav from './InitNav';
 const NavbarContain = () => {
 	
 	const [userData, setUserData] = useState(0);
-	useEffect( () => {
-		if(localStorage.getItem('id')){
-			setUserData(1);
-		}
-	})
 
-	
+	useEffect( () => {
+		console.log(localStorage.getItem('id'))
+		if(localStorage.getItem('id')){
+			setUserData(true);
+		}
+	},[])
+
 	return (
 		<Container>
 			<Nav>

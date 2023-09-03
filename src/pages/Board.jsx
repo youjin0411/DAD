@@ -1,7 +1,58 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from 'styled-components'
+import axios from 'axios';
 const Board = () => {
-	const [text, setText] = useState([1,2])
+	const [text, setText] = useState([])
+	const [name, setName] = useState('')
+	const [pw, setPw] = useState('')
+	const [textContent, setTextContent] = useState('')
+
+	async function getProject() {
+		try {
+			const response = await axios.get("http://localhost:3001/board");
+			console.log(response.data)
+			setText(response.data);
+		} catch (error) {
+			console.error("오류 발생:", error);
+		}
+	}
+	getProject();
+
+	async function postProject() {
+		try {
+			const response = await axios.post("http://localhost:3001/board", {
+				name: name,
+				pw: pw,
+				textContent: textContent
+			});
+		} catch (error) {
+			console.error("오류 발생:", error);
+		}
+	}
+	const onSubmit = (e) => {
+		e.preventDefault();
+	}
+
+	const Delete = (name) => {
+    try {
+        const response = axios.delete(`http://localhost:3001/board/${name}`);
+				getProject();
+    } catch (error) {
+        console.error("오류 발생:", error);
+    }
+}
+
+	const Edit = (item) => {
+		alert('비밀번호를 입력해주세요')
+		const inputpw = prompt('비밀번호를 입력해주세요')
+		if(inputpw === item.PASSWORD) {
+			alert('삭제되었습니다.')
+			Delete(item.NAME)
+		} else {
+			alert('비밀번호가 틀렸습니다.')
+		}
+	}
+
 	return(	
 <Group>
 			<Title>MIRIM ITSHOW!</Title>
@@ -10,25 +61,26 @@ const Board = () => {
 				<G>
 					<Box style={{backgroundColor: '#F3D2D2'}}>
 						<Text>후기 작성</Text>
-						<form style={{display: 'grid', marginTop: 20}}>
+						<form style={{display: 'grid', marginTop: 20}} onSubmit={onSubmit}>
 							<Text style={{color: `#38405D` }}>작성자명</Text>
 							<Inputs
 							style={{height: 42}}
 								type="text"
 								placeholder="작성자님의 성명을 작성해주세요."
-								// onChange={handleIdChange} 
+								onChange={(name) => setName(name.target.value)} 
 							/>
 							<Text style={{color: `#38405D` }}>후기 작성</Text>
-							<textarea cols="5" rows="5" style={{width: 380, borderRadius: 8, border: 'none'}} placeholder='작성자님의 후기를 작성해주세요.'></textarea>
+							<textarea cols="5" rows="5" style={{width: 380, borderRadius: 8, border: 'none'}} placeholder='작성자님의 후기를 작성해주세요.'
+							onChange={(text) => setTextContent(text.target.value)}></textarea>
 							<Text style={{color: `#38405D` }}>비밀번호</Text>
 							<Inputs
 								style={{height: 42}}
 								type="password"
 								placeholder="비밀번호를 통해 후기글 삭제 할 수 있습니다."
-								// onChange={handleIdChange} 
+								onChange={(pw) => setPw(pw.target.value)} 
 							/>
 							<SubTitle style={{fontSize: 16}}>※ 학생들이 직접 보는 게시판 이므로 따뜻한 말 한 마디 부탁드립니다.</SubTitle>
-							<Button>제출</Button>
+							<Button onClick={postProject}>제출</Button>
 							</form>
 					</Box>
 				</G>
@@ -36,9 +88,9 @@ const Board = () => {
 					<Box style={{backgroundColor: '#D0ECFF'}}>
 						<Text>게시판</Text>
 						{text.map((item, i) => (
-							<Item>
-								<div style={{marginLeft: 20}}>i</div>
-								<div style={{float: 'right', marginRight: 20}}>item</div>
+							<Item onClick={() => Edit(item)}>
+								<div style={{marginLeft: 20}}>{item.NAME}</div>
+								<div style={{float: 'right', marginRight: 20}}>{item.CONTEXT}</div>
 							</Item>
 						))}
 					</Box>
@@ -47,6 +99,7 @@ const Board = () => {
 		</Group>
 	)
 }
+
 const Item = styled.div`
 	width: 454px;
 	height: 64px;
